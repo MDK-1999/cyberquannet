@@ -351,6 +351,25 @@ app.get('/api/stats/dashboard', auth(['admin','manager','staff']), async (req, r
   res.json({ computers, active_sessions: active_sessions.count, today_revenue: today_revenue.total, total_customers: total_customers.count });
 });
 
+app.get('/api/setup-passwords', async (req, res) => {
+    const passwords = {
+        admin:    'admin123',
+        quanly:   '123456',
+        nhanvien: '123456',
+        khach1:   '123456'
+    };
+    for (const [username, pwd] of Object.entries(passwords)) {
+        const hash = await bcrypt.hash(pwd, 10);
+        await pool.execute('UPDATE users SET password=? WHERE username=?', [hash, username]);
+    }
+    res.json({ success: true, message: 'Done!' });
+});
+
+
+
+
+
+
 // ============ START SERVER ============
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 CyberNET Pro API running on http://localhost:${PORT}`));
