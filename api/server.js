@@ -22,14 +22,16 @@ app.get('/', (req, res) => {
 });
 // ---- DB Connection Pool ----
 const pool = mysql.createPool({
-  host:     process.env.DB_HOST     || 'localhost',
-  user:     process.env.DB_USER     || 'root',
-  password: process.env.DB_PASS     || '',
-  database: process.env.DB_NAME     || 'cybernet',
-  waitForConnections: true,
-  connectionLimit: 10,
+    host:     process.env.DB_HOST,
+    port:     process.env.DB_PORT,
+    user:     process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    charset:  'utf8mb4',
+    waitForConnections: true,
+    connectionLimit: 10,
+    ssl: { rejectUnauthorized: false }
 });
-
 const JWT_SECRET = process.env.JWT_SECRET || 'cybernet_secret_2024';
 
 // ============ MIDDLEWARE ============
