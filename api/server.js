@@ -95,7 +95,7 @@ app.post('/api/auth/login', async (req, res) => {
 // ============ USER ROUTES ============
 
 // GET /api/users - Lấy danh sách người dùng
-app.get('/api/users', auth(['admin', 'manager']), async (req, res) => {
+app.get('/api/users', auth(['admin', 'manager', 'staff']), async (req, res) => {
   const { role } = req.query;
   let sql = 'SELECT id,username,name,role,email,phone,balance,status,created_at FROM users';
   const params = [];
