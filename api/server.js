@@ -1,4 +1,4 @@
-// ============================================
+ // ============================================
 // CYBERNET PRO - BACKEND API (Node.js + Express + MySQL)
 // ============================================
 // Cài đặt: npm install express mysql2 bcryptjs jsonwebtoken cors dotenv
@@ -374,4 +374,4 @@ app.get('/api/setup-passwords', async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 CyberNET Pro API running on http://localhost:${PORT}`));
 
-module.exports = app;
+module.exports = app; 
