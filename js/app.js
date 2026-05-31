@@ -443,7 +443,7 @@ async function renderRevenue() {
       <div class="panel-body">
         ${data.revenue.map(d => `
           <div class="chart-bar-row">
-            <div class="chart-bar-label">${d.period}</div>
+           <div class="chart-bar-label">${String(d.period).substring(5,10)}</div>
             <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${Math.round(d.total/max*100)}%">${formatMoney(d.total)}</div></div>
             <div class="chart-bar-val">${formatMoney(d.total)}</div>
           </div>`).join('') || '<p style="color:var(--text-dim)">Chưa có dữ liệu</p>'}
