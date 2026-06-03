@@ -781,3 +781,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   document.getElementById('loginPassword').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 });
+
+window.addEventListener('load', () => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get('action') === 'register') {
+        showRegister();
+    }
+});
