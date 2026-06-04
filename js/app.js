@@ -404,9 +404,14 @@ async function saveUser() {
   const alertEl = document.getElementById('userAlert');
   if (!name || !username) { showAlert(alertEl, 'error', 'Vui lòng điền đủ thông tin!'); return; }
   try {
-    if (editId) await apiCall('PUT', '/users/' + editId, { name, username, password, email, phone, role });
-    else await apiCall('POST', '/auth/register', { name, username, password, email, phone, role });
-    closeModal('userModal');
+    if (editId) {
+      const body = { name, username, email, phone, role, status: 'active' };
+      if (password) body.password = password;
+      await apiCall('PUT', '/users/' + editId, body);
+    } else {
+      if (!password) { showAlert(alertEl, 'error', 'Vui lòng nhập mật khẩu!'); return; }
+      await apiCall('POST', '/auth/register', { name, username, password, email, phone, role });
+    }    closeModal('userModal');
     navigateTo(currentUser.role === 'admin' ? 'users' : 'customers', '');
   } catch(e) { showAlert(alertEl, 'error', e.message); }
 }
