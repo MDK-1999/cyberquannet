@@ -34,8 +34,9 @@ async function doLogin() {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('cn_token', authToken);
-    localStorage.setItem('cn_user', JSON.stringify(currentUser));
-    showDashboard();
+localStorage.setItem('cn_user', JSON.stringify(currentUser));
+showAlert(alertEl, 'success', '✅ Đăng nhập thành công!');
+setTimeout(() => showDashboard(), 1500);
   } catch (err) {
     showAlert(alertEl, 'error', err.message);
   }
