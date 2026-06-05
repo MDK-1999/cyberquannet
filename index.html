@@ -12,6 +12,22 @@
   <div class="scanlines"></div>
   <div class="grid-bg"></div>
 
+
+<div style="position:fixed;top:20px;left:20px;z-index:10">
+  <a href="home.html" style="color:var(--accent);font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(0,229,255,0.08);border:1px solid rgba(0,229,255,0.3);border-radius:25px;backdrop-filter:blur(10px);transition:all 0.2s"
+     onmouseover="this.style.background='rgba(0,229,255,0.15)';this.style.borderColor='var(--accent)'"
+     onmouseout="this.style.background='rgba(0,229,255,0.08)';this.style.borderColor='rgba(0,229,255,0.3)'">
+    ← Trang Chủ
+  </a>
+</div>
+
+
+
+
+
+
+
+
   <div class="login-container">
     <div class="logo-area">
       <img src="logo.png" style="width:90px;height:90px;object-fit:contain;margin-bottom:8px;filter:drop-shadow(0 0 15px #00f5ff)">
@@ -48,13 +64,7 @@
         <span>ĐĂNG NHẬP</span>
         <span class="btn-icon">→</span>
       </button>
-      <div style="text-align:center;margin-bottom:12px">
-  <a href="home.html" style="color:var(--text-dim);font-size:0.85rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color 0.2s"
-     onmouseover="this.style.color='#00f5ff'" onmouseout="this.style.color='var(--text-dim)'">
-    ← Quay lại trang chủ
-  </a>
-</div>
-      <p class="register-link">Chưa có tài khoản? <a onclick="showRegister()">Đăng ký ngay</a></p>
+            <p class="register-link">Chưa có tài khoản? <a onclick="showRegister()">Đăng ký ngay</a></p>
     </div>
   </div>
 
