@@ -781,8 +781,7 @@ document.addEventListener('DOMContentLoaded', () => {
       authToken = savedToken;
       currentUser = JSON.parse(savedUser);
 showAlert(alertEl, 'success', '✅ Đăng nhập thành công! Đang chuyển hướng...');
-await new Promise(resolve => setTimeout(resolve, 1500));
-      showDashboard();
+setTimeout(() => showDashboard(), 1500);
       return;
     } catch {}
   }
