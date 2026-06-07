@@ -96,6 +96,7 @@ function getNavItems() {
       { icon:'🖥️', title:'Quản Lý Máy Tính', page:'computers' },
       { icon:'📋', title:'Lịch Sử Hoạt Động', page:'activity' },
       { icon:'💰', title:'Thống Kê Doanh Thu', page:'revenue' },
+      { icon:'💾', title:'Backup Dữ Liệu', page:'backup' },
     ],
     manager: [
       { icon:'📊', title:'Tổng Quan', page:'dashboard' },
@@ -148,6 +149,7 @@ async function loadPage(page) {
     case 'customers': html = await renderCustomers(); break;
     case 'staff': html = await renderStaff(); break;
     case 'revenue': html = await renderRevenue(); break;
+    case 'backup': html = await renderBackup(); break;    
     case 'activity': html = await renderActivity(); break;
     case 'open_session': html = await renderOpenSession(); break;
     case 'close_session': html = await renderCloseSession(); break;
@@ -772,6 +774,106 @@ function afterRender(page) {
     }
   }
 }
+
+
+
+async function renderBackup() {
+  try {
+    const [users, computers, sessions, transactions] = await Promise.all([
+      apiCall('GET', '/users'),
+      apiCall('GET', '/computers'),
+      apiCall('GET', '/sessions'),
+      apiCall('GET', '/transactions'),
+    ]);
+    return `
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header"><span class="panel-title">💾 SAO LƯU DỮ LIỆU</span></div>
+        <div class="panel-body">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <button class="btn btn-accent" style="padding:14px;font-size:1rem" onclick="exportBackup()">
+              📥 Xuất File Backup (.json)
+            </button>
+            <div style="padding:12px;background:var(--bg-input);border-radius:8px;font-size:0.85rem;color:var(--text-dim)">
+              File backup chứa toàn bộ dữ liệu: người dùng, máy tính, phiên sử dụng và giao dịch.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><span class="panel-title">📊 THỐNG KÊ DỮ LIỆU</span></div>
+        <div class="panel-body">
+          <table>
+            <tr><td style="color:var(--text-dim)">👥 Người dùng</td><td style="color:var(--accent);font-family:var(--font-display);font-size:1.2rem">${users.length}</td></tr>
+            <tr><td style="color:var(--text-dim)">🖥️ Máy tính</td><td style="color:var(--accent);font-family:var(--font-display);font-size:1.2rem">${computers.length}</td></tr>
+            <tr><td style="color:var(--text-dim)">⏱️ Phiên sử dụng</td><td style="color:var(--accent);font-family:var(--font-display);font-size:1.2rem">${sessions.length}</td></tr>
+            <tr><td style="color:var(--text-dim)">💰 Giao dịch</td><td style="color:var(--accent);font-family:var(--font-display);font-size:1.2rem">${transactions.length}</td></tr>
+          </table>
+          <div style="margin-top:16px;padding:12px;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:8px;font-size:0.85rem;color:var(--green)">
+            ✅ Dữ liệu được lưu trên MySQL Railway, tự động sao lưu hàng ngày.
+          </div>
+        </div>
+      </div>
+    </div>`;
+  } catch(e) { return `<div class="empty-state"><div class="empty-icon">❌</div><p>${e.message}</p></div>`; }
+}
+
+async function exportBackup() {
+  try {
+    const [users, computers, sessions, transactions] = await Promise.all([
+      apiCall('GET', '/users'),
+      apiCall('GET', '/computers'),
+      apiCall('GET', '/sessions'),
+      apiCall('GET', '/transactions'),
+    ]);
+    const backup = {
+      exported_at: new Date().toISOString(),
+      exported_by: currentUser.name,
+      data: { users, computers, sessions, transactions }
+    };
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `cybernet_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  } catch(e) { alert('Lỗi xuất backup: ' + e.message); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', () => {
